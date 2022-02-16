@@ -1,0 +1,132 @@
+{% extends 'template/template.html' %}
+{% block head %}
+<title>{{ produit.entete }}</title>
+{% endblock %}
+{% block content %}
+<br><br><br><br><br>
+
+  <!-- product category -->
+  <section id="aa-product-details">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-product-details-area">
+            <div class="aa-product-details-content">
+              <div class="row">
+                <!-- Modal view slider -->
+                <div class="col-md-5 col-sm-5 col-xs-12">                              
+                  <div class="aa-product-view-slider">                                
+                    <div id="demo-1" class="simpleLens-gallery-container">
+                      <div class="simpleLens-container">
+                        <div class="simpleLens-big-image-container"><a data-lens-image="{{ produit.affiche.url }}" class="simpleLens-lens-image"><img src="{{ produit.affiche.url }}" class="simpleLens-big-image"></a></div>
+                      </div>
+                      <div class="simpleLens-thumbnails-container">
+                      	{% for item in images %}
+                          <a data-big-image="{{ item.image.url }}" data-lens-image="{{ item.image.url }}" class="simpleLens-thumbnail-wrapper" href="#">
+                            <img src="{{ item.image.url }}" style="width: 20px;height: 20px;">
+                          </a>                                    
+                          {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Modal view content -->
+                <div class="col-md-7 col-sm-7 col-xs-12">
+                  <div class="aa-product-view-content">
+                    <h3>{{produit.entete}}</h3>
+                    <div class="aa-price-block">
+                      <span class="aa-product-view-price">Prix :{{produit.prix}}&nbspEUR</span>
+                      
+                      <p class="aa-product-avilability">Opération: <span>{{ produit.operation }}</span></p>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis animi, veritatis quae repudiandae quod nulla porro quidem, itaque quis quaerat!</p>
+                 
+        
+                    <div class="aa-prod-view-bottom">
+                      <h4>Telephone</h4>
+                      <a >122334343434</a>
+                   
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+ <div class="aa-product-details-bottom">
+              <ul class="nav nav-tabs" id="myTab2">
+                <li><a href="#description" data-toggle="tab">Description</a></li>
+                               
+              </ul>
+
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div class="tab-pane fade in active" id="description">
+                  <p>{{ produit.contenu }}}.</p>
+                  <ul>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, culpa!</li>
+                    <li>Lorem ipsum dolor sit amet.</li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor qui eius esse!</li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, modi!</li>
+                  </ul>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum, iusto earum voluptates autem esse molestiae ipsam, atque quam amet similique ducimus aliquid voluptate perferendis, distinctio!</p>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis ea, voluptas! Aliquam facere quas cumque rerum dolore impedit, dicta ducimus repellat dignissimos, fugiat, minima quaerat necessitatibus? Optio adipisci ab, obcaecati, porro unde accusantium facilis repudiandae.</p>
+                </div>
+                <p><a href="{% url 'updateProduct' produit.id %}" class="btn btn-info">update</a></p>
+	<p><a href="{% url 'deleteProduct' produit.id %}" class="btn btn-danger">delete</a></p>
+		<br><br>           
+              </div>
+            </div>
+            <!-- Related product -->
+            <div class="aa-product-related-item">
+              
+   
+              <!-- quick view modal -->                  
+              <div class="modal fade" id="quick-view-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">                      
+                    <div class="modal-body">
+                   
+                      <div class="row">
+                        <!-- Modal view slider -->
+                        <div class="col-md-6 col-sm-6 col-xs-12">                              
+                          <div class="aa-product-view-slider">                                
+                            <div class="simpleLens-gallery-container" id="demo-1">
+                              
+                              <div class="simpleLens-thumbnails-container">
+                              	{% for item in images %}
+                                  <a href="#" class="simpleLens-thumbnail-wrapper"
+                                     data-lens-image="{{item.image.url}}"
+                                     data-big-image="{{item.image.url}}">
+                                      <img src="{{item.image.url}}">
+                                  </a>        
+                                  {% endfor %}                            
+                                 
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Modal view content -->
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                     
+                        </div>
+                      </div>
+                    </div>                        
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div>
+              <!-- / quick view modal -->   
+            </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </section>
+
+
+{% endblock %}
+
+
+
+	

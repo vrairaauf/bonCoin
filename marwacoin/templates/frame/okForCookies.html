@@ -1,0 +1,13 @@
+<div class="alert alert-danger">
+ 		<p>confirmation lenregistrement des cookies</p>
+ 		<div>
+ 			<form method="POST">
+ 				{% csrf_token %}
+ 				<input type="submit" name="submit" value="accepter">
+ 			</form>
+ 		</div>
+ </div>
+ <script type="text/javascript">
+ 	
+ 	let okForCookies=confirm('voulez vous enregistrer les cookies for notre site');
+ </script>

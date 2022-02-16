@@ -1,0 +1,20 @@
+{% extends 'template/template.html' %}
+{% block head %}
+<title>parametre</title>
+{% endblock %}
+{% block content %}
+<br><br><br><br><br>
+<div class="alert alert-info container">
+	<p><i class="fa-solid fa-user-lock"></i>&nbsp&nbsp<a href="?tache=supprimerCompte">Désactiver mon compte</a></p>
+	<br>
+	{% if estIlVendeur %}
+	<p><i class="fa-solid fa-store-slash"></i>&nbsp&nbsp<a href="?tache=supprimerLeModeVendeur">supprimer le mode vendeur</a></p>
+
+	<br>
+	{% endif %}
+	{% if emailTrouve %}
+	<p><i class="fa-solid fa-envelope-open-text"></i>&nbsp&nbsp<a href="?tache=supprimeremailfromemailerie">desactiver les email de notifications</a></p>
+	{% endif %}
+</div>
+<br><br><br><br>
+{% endblock %}

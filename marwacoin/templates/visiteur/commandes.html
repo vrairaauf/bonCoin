@@ -1,0 +1,110 @@
+{% extends 'template/template.html' %}
+{% block head %}
+<title>Minimalist Commandes</title>
+{% endblock %}
+{% block content %}
+<br><br><br><br><br>
+{% if messages %}
+<div class="alert alert-info">
+{% for item in messages %}
+<ul>
+  <li class="text-center">{{item}}</li>
+</ul>
+{% endfor %}
+</div>
+{% endif %}
+{{meta.foctionne}}
+{% if meta.fonctionne is False %}
+<div class="container alert alert-danger">
+  <h4 class="text-center"><strong>Les service de se site nest pas pour votre zone geographique</strong></h4>
+</div>
+{% endif %}
+
+{% if notifications %}
+<div class="container alert alert-warning">
+  {% for item in notifications %}
+    <p>vous avez une nouvelle notification</p>
+    <p>{{ item.extrai }}<span><a href="{% url 'lireNotification' item.id %}">lire</a></span></p>
+
+  {% endfor %}
+</div>
+{% endif %}
+
+
+
+ <section id="aa-blog-archive">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-blog-archive-area aa-blog-archive-2">
+            <div class="row">
+              <div class="col-md-9">
+                <div class="aa-blog-content">
+                  <div class="row">
+  {% for item in commandes %}
+   <div class="col-md-4 col-sm-4">
+                      <article class="aa-latest-blog-single">
+                        <figure class="aa-blog-img">                    
+                          <a href="#"><img alt="img" src="{{ item.produit.affiche.url }}"></a>  
+                            <figcaption class="aa-blog-img-caption">
+                              <span href="#"><i class="fa fa-clock-o"></i>{{ item.created_at }}</span>
+                              <a href="#"><i class="fa-solid fa-hand-holding-dollar"></i>{{ item.produit.prix }}&nbspEUR</a>
+                          </figcaption>                          
+                        </figure>
+                        <div class="aa-blog-info">
+                          <h3 class="aa-blog-title">{{item.entete}}</h3>
+                         
+                           
+                      {% if item.livre is True%}
+                          <span class="fa fa-long-arrow-right">Ce produit est delivre</span>
+                          {% else%}
+                            <a class="aa-read-mor-btn" href="{% url 'confirmerDelivration' item.id %}">Confirmer la délivration du commandes <span class="fa fa-long-arrow-right"></span></a>
+                          {% endif %}
+                           
+                          
+
+                        </div>
+                      </article>
+                    </div>
+  
+  {% endfor %}
+</div>
+</div>
+ 
+
+
+
+           
+</div>
+   <div class="col-md-3">
+                <aside class="aa-blog-sidebar">
+                  <div class="aa-sidebar-widget">
+                    <h3>Categories</h3>
+                  
+  
+  
+                    <ul class="aa-catg-nav">
+                      
+                    </ul>
+                  </div>
+                  <div class="aa-sidebar-widget">
+                 
+                  </div>
+    
+                </aside>
+              </div>
+</div>
+
+
+</div>
+</div></div></div></section>
+    
+
+
+
+
+{% endblock %}
+
+
+
+	

@@ -1,0 +1,56 @@
+{% extends 'template/template.html' %}
+{% block head %}
+<title>mes entregistrement</title>
+{% endblock %}
+{% block content %}
+<br><br><br><br>
+	<section id="aa-blog-archive">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-blog-archive-area aa-blog-archive-2">
+            <div class="row">
+              <div class="col-md-9">
+                <div class="aa-blog-content">
+                  <div class="row">
+
+
+	{% for item in produits %}
+	 <div class="col-md-4 col-sm-4">
+            <article class="aa-latest-blog-single">
+                     <figure class="aa-blog-img">                    
+            <a href="#"><img alt="img" src="{{ item.affiche.url }}"></a>  
+       <figcaption class="aa-blog-img-caption">
+          <span href="#"><i class="fa fa-clock-o"></i>{{ item.created_at }}</span>
+      <a href="#"><i class="fa-solid fa-hand-holding-dollar"></i>{{ item.prix }}&nbspEUR</a>
+                          </figcaption>                          
+                        </figure>
+                        <div class="aa-blog-info">
+                          <h3 class="aa-blog-title"><a href="#">{{item.entete}}</a></h3>
+                          <p>{{ item.extrai }}</p> 
+                         	
+		<a href="{% url 'versAcheterUnProduit' item.slug %}" class="btn btn-danger">voir</a>
+          <a href="{% url 'deleteProductFromEnreg' item.id %}" class="btn btn-danger">Delete</a>             
+                          
+                        </div>
+
+                      </article>
+                    </div>
+	
+	{% endfor %}
+</div>
+
+</div>
+ 
+
+	
+
+
+               
+
+</div>
+
+
+</div>
+</div></div></div></section>
+{% endblock %}

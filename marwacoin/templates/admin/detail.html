@@ -1,0 +1,66 @@
+{% extends 'template/template.html' %}
+{% block head %}
+<title>dashbord | detail</title>
+{% endblock %}
+{% block content %}
+<br><br><br><br><br>
+<div class="alert alert-info">
+	<h4>les information concernant<img src="{{user.avatar.url}}" class="" style="width: 40px;height: 40px;"> {{user.user}}{% if estIlConnecte == True  %}&nbsp&nbsp<span style="background-color: green ;width:10;height: 10; border-radius: 50%;">&nbsp&nbsp&nbsp</span>{% endif %}</h4>
+	<p><strong>{{ user.user.email }}</strong><span><a href="{% url 'adminEnvoieEmailPourUtilisateur' user.user.id %}">envoyer un email</a></span></p>
+	<p><strong>{{ user.user.first_name }}</strong></p>
+	{% if user.phone %}
+	<p><strong>phone{{user.phone}}</strong></p>
+	{% endif %}
+	{% if user.adresse %}
+	<p><strong>adresse{{user.adresse}}</strong></p>
+	{% endif %}
+	{% if user.age %}
+	<p><strong>age{{user.age}}</strong></p>
+	{% endif %}
+	 {% if user.registerCookie %}
+	 	<p>active les cookies</p>
+	 {% else %}
+	 	<p>desactiver les cookies</p>
+	 {% endif %}
+	 {% if user.is_verified %}
+	 	<p>compte verifier</p>
+	 {% else %}
+	 	<p>ce compte n'est pas verifier</p>
+	 {% endif %}
+	 {% if vendeurProfile %}
+	 	<p><strong>ce compte est un vendeur</strong></p>
+	 	<p><strong>paypal {{vendeurProfile.Paypal_business}}</strong></p>
+	 	<p><strong>devenir un vendeur en {{vendeurProfile.created_at}}}</strong></p>
+	 	<p><a href="{% url 'supprimerVendeur' vendeurProfile.id %}">supprimer cet vendeur</a></p>
+	 {% endif %}
+	 <p>ce compte est creer en {{ user.created_at }}</p>
+<hr>
+{% if commandes %}
+<div class="alert alert-info">
+	{% for item in commandes %}
+	<p>{{ item.produit }}&nbsp&nbsp&nbsp<span>{{item.prix}}</span>&nbsp&nbsp&nbsp<span>{{item.nbPiece}}</span>&nbsp&nbsp&nbsp<span>{{item.produit.prix}}&nbsp(par piece)</span>&nbsp&nbsp&nbsp<span>{% if item.delivre %}<span><strong>ce produit est delivre </strong></span>{% else %}<span><strong>ce produit n'est délivre</strong></span>{% endif %}</span>&nbsp&nbsp<span>cette commande passe le {{ item.created_at }}</span></p>
+	<br>
+	<hr>
+	{% endfor %}
+</div>
+{% endif %}
+{% if vendeurProfile %}
+<h3>Les produits publier</h3>
+<hr>
+<div class="alert alert-info">
+	{% for item in produits %}
+	<h4><strong>{{ item.entete }}</strong></h4>
+	<p><img src="{{item.affiche.url}}" style="width: 40px;height: 40px;"></p>
+	<p><span>prix&nbsp&nbsp:{{ item.prix }}</span>&nbsp&nbsp<span>{{item.operation}}</span></p>
+	<p><a href="{% url 'versAcheterUnProduit' item.slug %}">voir ce produit</a></p>
+	<p><a href="{% url 'adminSupprimerProduits' item.slug %}">supprimer ce produit</a></p>
+
+	{% endfor %}
+</div>
+{% endif %}
+</div>
+ <div class="alert alert-info">
+	<p><a href="{% url 'admin_home' %}">la page principal</a></p>
+
+</div>
+{% endblock %}

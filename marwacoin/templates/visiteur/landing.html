@@ -1,0 +1,169 @@
+{% extends 'template/template.html' %}
+{% load marwacoin_extras %}
+{% block head %}
+<title>Home</title>
+{% endblock %}
+{% block content %}
+<br><br><br><br><br>
+<div class="container alert alert-danger">
+  <style type="text/css">
+    .modele{
+      border-style: dashed;
+      border-width: 0.1px;
+    }
+  </style>
+  <form method="POST">
+    {% csrf_token %}
+    <textarea cols="100" rows="20" name="modele" class="modele">
+      {% for item in retour %}
+      {{item}}
+      {% endfor %}
+    </textarea>
+    <input type="submit" name="submit" value="envoyer">
+  </form>
+</div>
+{% if messages %}
+<div class="alert alert-info">
+{% for item in messages %}
+<ul>
+	<li class="text-center">{{item}}</li>
+</ul>
+{% endfor %}
+</div>
+{% endif %}
+{{meta.foctionne}}
+{% if meta.fonctionne is False %}
+<div class="container alert alert-danger">
+	<h4 class="text-center"><strong>Les service de se site nest pas pour votre zone geographique</strong></h4>
+</div>
+{% endif %}
+
+{% if notifications %}
+<div class="container alert alert-warning" style="display: flex;">
+	{% for item in notifications %}
+  <div style="width: 20%;margin: 20px;padding: 20px;">
+  <i class="fa-solid fa-bell" style="font-size: 70px"></i>
+		</div>
+    <div style="width: 80%;">
+      <p><strong>&nbspvous avez une nouvelle notification</strong></p>
+		  <p>{{ item.extrai }}<span><a href="{% url 'lireNotification' item.id %}">lire</a></span></p>
+  </div>
+
+	{% endfor %}
+</div>
+{% endif %}
+
+<div class="container">
+  <form method="GET">
+    {{search.form.as_p}}
+    <br>
+    <input type="submit" name="submit" value="search">
+  </form>
+</div>
+
+ <section id="aa-blog-archive">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-blog-archive-area aa-blog-archive-2">
+            <div class="row">
+              <div class="col-md-9">
+                <div class="aa-blog-content">
+                  <div class="row">
+                  {% for item in produits_list %}
+                  	 <div class="col-md-4 col-sm-4">
+                      <article class="aa-latest-blog-single">
+                        <figure class="aa-blog-img">                    
+                          <a href="#"><img alt="img" src="{{ item.affiche.url }}"></a>  
+                            <figcaption class="aa-blog-img-caption">
+                              <span href="#" style="font-size: 13px;"><i class="fa fa-clock-o"></i>{{ item.created_at }}</span>
+                              <a href="#" style="font-size: 13px;"><i class="fa-solid fa-hand-holding-dollar"></i>{{ item.prix }}&nbspEUR</a>
+                          </figcaption>                          
+                        </figure>
+                        <div class="aa-blog-info">
+                          <h3 class="aa-blog-title"><a href="{% url 'versAcheterUnProduit' item.slug %}">{{item.entete}}</a></h3>
+                          <p>{{ item.extrai }}</p> 
+                         	 {% if meta.fonctionne is True %}
+								{% if item.operation == 'vente' %}
+                          <a class="aa-read-mor-btn" href="{% url 'versAcheterUnProduit' item.slug %}">Acheter &nbsp&nbsp<i class="fa-solid fa-cart-shopping"></i> <span class="fa fa-long-arrow-right"></span></a>
+                          {% else %}
+                          	<a class="aa-read-mor-btn" href="{% url 'prendreUnRendezVous' item.slug %}">Prend un rendez-vous &nbsp&nbsp<i class="fa-solid fa-file-signature"></i><span class="fa fa-long-arrow-right"></span></a>
+                          {% endif %}
+                           {% endif %}
+                        </div>
+                      </article>
+                    </div>
+                  	{% endfor %}
+                  </div>
+                  </div>
+ 
+
+
+
+                <div class="aa-blog-archive-pagination">
+                  <nav>
+                    <ul class="pagination">
+                    	{% if produits_list.has_previous %}
+                      <li>
+                        <a aria-label="Previous" href="{% my_url  produits_list.previous_page_number 'page' request.GET.urlencode %}">
+                          <span aria-hidden="true">«</span>
+                        </a>
+                      </li>
+                      {% endif %}
+                      {% for item in longPagination %}
+                      	{% if forloop.counter ==  produits_list.number%}
+                      	<li class="active"><a href="{% my_url  forloop.counter 'page' request.GET.urlencode %}">{{forloop.counter}}</a></li>
+                      	{% else %}
+                      		<li><a href="{% my_url  forloop.counter 'page' request.GET.urlencode %}">{{forloop.counter}}</a></li>
+                      	{% endif %}
+                      {% endfor %}
+                      
+                      {% if produits_list.has_next %}
+                      <li>
+                        <a aria-label="Next" href="{% my_url produits_list.next_page_number 'page' request.GET.urlencode %}">
+                          <span aria-hidden="true">»</span>
+                        </a>
+                      </li>
+                      {% endif %}
+                    </ul>
+                  </nav>
+                </div>
+</div>
+   <div class="col-md-3">
+                <aside class="aa-blog-sidebar">
+                  <div class="aa-sidebar-widget">
+                    <h3>Categories</h3>
+                    <ul class="aa-catg-nav">
+                    	  {% for item in categorie %}
+                      <li><a href="{% url 'categoriesDetail' item.slug %}"> {{item.titre}} <br><small><img src="{{item.avatar.url}}" style="width: 60px;height: 60px;"></small>  </a></li>
+                      	{% endfor %}
+                    </ul>
+                  </div>
+                  <div class="aa-sidebar-widget">
+                    
+                    
+                  </div>
+    
+                </aside>
+              </div>
+
+              </div>
+              </div>
+              </div>
+              </div>
+              </div>
+              </section>
+		
+
+
+<hr>
+{% if profil.registerCookie is False %}
+{% include 'frame/okForCookies.html' %}
+ {% endif %}
+
+
+
+
+
+
+{% endblock %}

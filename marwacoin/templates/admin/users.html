@@ -1,0 +1,21 @@
+{% extends 'template/template.html' %}
+{% block head %}
+<title>minimalit | utilisateurs</title>
+{% endblock %}
+{% block content %}
+<div class="alert alert-warning">
+	
+<h2 >voir les utilisateurs</h2>
+</div>
+<div class="alert alert-info">
+	{% for item in users %}
+	<div class="alert alert-success">
+		<p>{{item.user}}<span class="btn btn-success" ><a href="{% url 'detailUser' item.slug %}">voir eb detail</a></span></p>
+	</div>
+	{% endfor %}
+</div>
+ <div class="alert alert-info">
+	<p><a href="{% url 'admin_home' %}">la page principal</a></p>
+
+</div>
+{% endblock %}

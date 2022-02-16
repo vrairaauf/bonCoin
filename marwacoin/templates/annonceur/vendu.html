@@ -1,0 +1,63 @@
+{% extends 'template/template.html' %}
+
+{% block head %}
+<title>Minimalist | Vendu</title>
+{% endblock %}
+{% block content %}
+<br><br><br>
+<br><br><br>
+<section id="aa-blog-archive">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-blog-archive-area aa-blog-archive-2">
+            <div class="row">
+              <div class="col-md-9">
+                <div class="aa-blog-content">
+                  <div class="row">
+
+	{% for item in produits %}
+	 <div class="col-md-4 col-sm-4">
+            <article class="aa-latest-blog-single">
+                     <figure class="aa-blog-img">                    
+            <a href="#"><img alt="img" src="{{ item.produit.affiche.url }}"></a>  
+       <figcaption class="aa-blog-img-caption">
+          <span href="#"><i class="fa fa-clock-o"></i>{{ item.created_at }}</span>
+      <a href="#"><i class="fa fa-comment-o"></i>{{ item.nbPiece }}</a>
+                          </figcaption>                          
+                        </figure>
+                        <div class="aa-blog-info">
+                          <h3 class="aa-blog-title"><a href="#">{{item.produit.entete}}</a></h3>
+                          {% if item.livre == False %}
+                            <p class="text text-danger">ce produit n'est pas livrer j'usqua maintenant</p>
+                            <p><a href="{% url 'nonDelivreDetail' item.id %}" class="btn btn-info">voir les detail de livraison</a></p>
+                          {% else %}
+                            <p class="text text-success">Livre</p>
+                          {% endif %}
+						          
+                
+
+                          
+                          
+                        </div>
+
+                      </article>
+                    </div>
+	
+	{% endfor %}
+</div>
+
+</div>
+ 
+            
+
+</div>
+
+
+</div>
+</div></div></div></section>
+
+{% endblock %}
+
+
+ 

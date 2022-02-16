@@ -1,0 +1,22 @@
+{% extends 'template/template.html' %}
+
+{% block head %}
+<title>dashbord</title>
+{% endblock %}
+{% block content %}
+<br><br><br><br><br>
+{% if messages %}
+<div class="alert alert-success">
+	{% for item in messages %}
+	<p class="text-center">{{item}}</p>
+	{% endfor %}
+</div>
+{% endif %}
+
+
+<div class="alert alert-info">
+	<p><a href="{% url 'showUsers' %}">Voir les utilisateurs de site</a></p>
+	<p><a href="{% url 'addCategorie' %}">Ajouter des categories</a></p>
+	<p><a href="{% url 'voirMessages' %}">Les messages recue</a></p>
+</div>
+{% endblock %}

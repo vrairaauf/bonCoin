@@ -1,0 +1,31 @@
+{% extends 'template/template.html' %}
+{% block head %}
+<title>minimalit | envoie email</title>
+{% endblock %}
+{% block content %}
+<br><br><br><br><br>
+<div class="alert alert-info">
+	{% if messages %}
+	{% for item in messages %}
+	<div class="alert alert-success container">
+		<p><strong>{{item}}</strong></p>
+	</div>
+	{% endfor %}
+	{% endif %}
+	<form method="POST">
+		{% csrf_token %}
+	
+		<div>
+			Objet<br>
+			<input type="text" name="objet" required="">
+		</div>
+		<div>
+			Message<br>
+			<textarea name="sujet" required=""></textarea>
+		</div>
+		<div>
+			<input type="submit" name="submit" value="envoyer">
+		</div>
+	</form>
+</div>
+{% endblock %}

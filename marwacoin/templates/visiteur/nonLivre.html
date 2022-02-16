@@ -1,0 +1,28 @@
+{% extends 'template/template.html' %}
+{% block head %}
+<title>minimalist | commande non livre</title>
+{% endblock %}
+{% block content %}
+<br><br><br><br><br>
+{% if commandes %}
+<div class="container alert alert-info">
+  {% for item in commandes %}
+  <img src="{{item.produit.affiche.url}}" style="width: 40px;height: 40px;">
+  <h4>{{item.produit}}</h4>
+  <p>{{item.user}}</p>
+
+  {% if item.livre %}
+  <p>ce produit est livre</p>
+  {% else %}
+  <p>ce produit n'est pas délivrée</p>
+  {% endif %}
+  <p>{{item.created_at}}</p>
+  <hr>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
+
+
+
+	

@@ -1,0 +1,15 @@
+{% block content %} 
+
+{% for item in cart %}
+	<li>{{item.quantite}} % {{item.product.name}} <span>{{ item.total_price }}</span></li>
+	<br>
+	<p>total {{ cart.get_total_price }}</p>
+	{% endfor %}
+	<div>
+		<form method="POST">
+			{% csrf_token %}
+			{{form.as_p}}
+			<button type="submit">Place Order</button>
+		</form>
+	</div>
+{% endblock %}

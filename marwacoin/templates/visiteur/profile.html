@@ -1,0 +1,151 @@
+{% extends 'template/template.html' %}
+{% block head %}
+<title>profile</title>
+{% endblock %}
+{% block content %}
+
+<style type="text/css">
+.card {
+    width: 350px;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.5s
+}
+
+.image img {
+    transition: all 0.5s
+}
+
+.card:hover .image img {
+    transform: scale(1.5)
+}
+
+.btn {
+    height: 140px;
+    width: 140px;
+    border-radius: 50%
+}
+
+.name {
+    font-size: 22px;
+    font-weight: bold
+}
+
+.idd {
+    font-size: 14px;
+    font-weight: 600
+}
+
+.idd1 {
+    font-size: 12px
+}
+
+.number {
+    font-size: 22px;
+    font-weight: bold
+}
+
+.follow {
+    font-size: 12px;
+    font-weight: 500;
+    color: #444444
+}
+
+.btn1 {
+    height: 40px;
+    width: 190px;
+    border: none;
+    background-color:grey ;
+    color: white;
+    font-size: 18px
+    font-weight:bold;
+}
+
+.text span {
+    font-size: 13px;
+    color: #545454;
+    font-weight: 500
+}
+
+.icons i {
+    font-size: 21px
+}
+
+hr .new1 {
+    border: 1px solid
+}
+
+.join {
+    font-size: 14px;
+    color: #a0a0a0;
+    font-weight: bold
+}
+
+.date {
+    background-color: #ccc
+}
+
+</style>
+<br><br><br><br><br><br><br>
+<div class="specialProfile" >
+<div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+    <div class="card p-4">
+        <div class=" image d-flex flex-column justify-content-center align-items-center">  <img src="{{profile.avatar.url}}" height="100" width="100" /> <span class="name mt-3">{{profile.user}}</span> 
+
+    {% if profile.phone == None %}
+        	<div class="d-flex flex-row justify-content-center align-items-center gap-2"> <span class="idd1"><p>Phone :<a href="{% url 'updateprofile' %}">ajouter numéro de téléphone</a></p></span> </div>
+           
+	{% else %}
+		<div class="d-flex flex-row justify-content-center align-items-center gap-2"><p> Phone : <span class="idd1">{{profile.phone}}</span></p> </div>
+            <div class="d-flex flex-row justify-content-center align-items-center mt-3"> </div>
+	{% endif %}
+
+	{% if profile.adresse == None %}
+		<div class="d-flex flex-row justify-content-center align-items-center gap-2"> <span class="idd1"><p>Adresse :<a href="{% url 'updateprofile' %}">ajouter votre adresse</a></p></span> </div>
+            
+	{% else %}
+		<div class="d-flex flex-row justify-content-center align-items-center gap-2"> <p>Adresse :<span class="idd1">{{profile.adresse}}</span></p> </div>
+            
+	{% endif %}
+	{% if profile.age == None %}
+		<div class="d-flex flex-row justify-content-center align-items-center gap-2"> <span class="idd1"><p>Age :<a href="{% url 'updateprofile' %}">ajouter votre age</a></p></span> </div>
+	{% else %}
+		<div class="d-flex flex-row justify-content-center align-items-center gap-2"> <p>Age :<span class="idd1">{{profile.age}}</span></p> </div>
+	{% endif %}
+            
+            <div class="d-flex flex-row justify-content-center align-items-center mt-3"> </div>
+            <div class=" d-flex mt-2" style="margin-left: 50px "> <button class="btn1 btn-dark"><a href="{% url 'updateprofile' %}">Edit Profile</a></button> </div>
+            <br>
+            {% if estIlVendeur %}
+            <div class="d-flex flex-row justify-content-center align-items-center mt-3" > </div>
+            <div class=" d-flex mt-2"> <button class="btn1 btn-dark" style="margin-left: 50px "><a href="{% url 'afficherMesAnnonces' %}">Mes Annonces</a></button> </div>
+            
+            {% endif %}
+           
+            {% if aDesEnreg %}
+             <br>
+            <div class="d-flex flex-row justify-content-center align-items-center mt-3"> </div>
+            <div class=" d-flex mt-2" style="margin-left: 50px "> <button class="btn1 btn-dark"><a href="{% url 'voirMesEnreg' %}">Mes Enregistrement</a></button> </div>
+            
+            {% endif %}
+            <br>
+            {% if mesCommandes %}
+            <div class="d-flex flex-row justify-content-center align-items-center mt-3"> </div>
+            <div class=" d-flex mt-2" style="margin-left: 50px "> <button class="btn1 btn-dark"><a href="{% url 'voirMesCommandes' %}">Mes Commandes</a></button> </div>
+            {% endif %}
+            
+            {% if produitVendu %}
+            <br>
+
+            <div class="d-flex flex-row justify-content-center align-items-center mt-3"> </div>
+            <div class=" d-flex mt-2" style="margin-left: 50px "> <button class="btn1 btn-dark"><a href="{% url 'mesProduitsVendu' %}">les produits vendus</a></button> </div>
+            {% endif %}
+            <br>
+            <div class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center"> <span><i class="fa fa-twitter"></i></span> <span><i class="fa fa-facebook-f"></i></span> <span><i class="fa fa-instagram"></i></span> <span><i class="fa fa-linkedin"></i></span> </div>
+            
+    </div>
+</div>
+</div>
+{% endblock %}
+

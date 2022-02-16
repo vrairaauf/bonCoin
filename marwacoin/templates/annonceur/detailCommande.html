@@ -1,0 +1,28 @@
+{% extends 'template/template.html' %}
+
+{% block head %}
+<title>Minimalist | Commandes non recue</title>
+{% endblock %}
+{% block content %}
+<br><br><br>
+<br><br><br>
+<p>les coordonées pour livrée la commande {{commande.id}}</p>
+<br><br>
+<h4>{{commande.produit.entete}}</h4>
+<img src="{{commande.produit.affiche.url}}" style="width: 50;height: 50">
+<h4>nombre de piéce :{{commande.nbPiece}}</h4>
+<h4>prix par piéce :{{commande.produit.prix}}&nbsp&nbspEUR</h4>
+<p>{{commande.user.email}}&nbsp&nbsp&nbsp<span><a href="">contacter</a></span></p>
+{% if userProfile.adresse %}
+<p>l'adresse de l'utilisateur : {{userProfile.adresse}}</p>
+{% endif %}
+{% if userProfile.phone %}
+<p>nuléro de téléphone de l'utilisateur : {{userProfile.phone}}</p>
+{% endif %}
+{% if commande.destination %}
+<p>adresse de destination :{{commande.destination}}</p>
+{% endif %}
+{% endblock %}
+
+
+ 

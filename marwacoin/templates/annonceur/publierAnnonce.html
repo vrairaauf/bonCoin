@@ -1,0 +1,196 @@
+{% extends 'template/template.html' %}
+{% block head %}
+	<title>minimal-ist | annonce</title>
+{% endblock %}
+{% block content %}
+
+	<style type="text/css">
+		.suitedinsertion{
+			display: none;
+		}
+	</style>
+<br><br><br><br><br>
+	<div class="container">
+
+		<div class="row">
+			<!-- Article main content -->
+			<article class="col-xs-12 maincontent">
+				<br>
+				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<h3 class="thin text-center txt1">Inscription</h3>
+							<form method="POST" action="">
+								{%csrf_token%}
+								<div class="top-margin">
+									Nom<br>
+									{{form.entete}}
+								</div>
+								<div class="top-margin">
+									Description<br>
+									{{form.contenu}}
+								</div>
+								<div class="top-margin">
+									<div class="categorie">
+										<p>Sélectionner une catégorie pour votre produit</p>
+										{{form.categorie}}
+									</div>
+									
+								</div>
+								<div class="top-margin">
+									<div id="sous_cat">
+										
+									</div>
+								</div>
+								<div class="suitedinsertion">
+									<div class="top-margin">
+										Prix<br>
+										{{form.prix}}
+									</div>
+									<div class="top-margin">
+										Quantitée<br>
+										{{form.quantite}}
+									</div>
+									<div class="top-margin">
+										Opération<br>
+										{{form.operation}}
+									</div>
+									
+									</div>
+									
+																<!--___________________________________________-->
+
+								<br>
+								<input type="hidden" name="user" value="{{ request.user.id }}">
+								<input type="hidden" name="location" value="123241221">
+								<input type="hidden" name="slug" value="{{slug}}">
+		<!--______________________________________________________-->
+		
+			<div class="top-margin">
+				<button id="suite" class="btn custom1 custom"><strong>Suivant</strong></button>
+			</div>
+		
+								<div class="row">
+
+									<div  class="col-lg-4 suitedinsertion">
+										<input class="btn  custom1 custom" type="submit" value="S'INSCRIRE">
+									</div>
+								</div>
+							</form>
+							<br>
+							{%if form.errors%}
+							<div class="alert alert-danger" role="alert">
+								{{form.errors}}
+							</div>
+							{%endif%}
+						</div>
+					</div>
+				</div>
+			</article>
+			<!-- /Article -->
+
+		</div>
+	</div>	<!-- /container -->
+
+<script type="text/javascript">
+let suite=document.getElementById("suite");
+	suite.addEventListener('click', function (event){
+	event.preventDefault();
+	const categorie=document.getElementById("id_categorie");
+	if(categorie.selectedIndex>0){
+	const data=new FormData();
+	data.append("categorie", categorie.selectedIndex);
+	const requeteajax=new XMLHttpRequest();
+	console.log(categorie.options[categorie.selectedIndex].value);
+	requeteajax.open('GET', '/annonce/obtenirSousCat/'+categorie.options[categorie.selectedIndex].value);
+	requeteajax.onload=function(){
+		const resulta=JSON.parse(requeteajax.responseText);
+		console.log(resulta);
+		let sous_cat=document.getElementById('sous_cat');
+		let p=document.createElement('p');
+		p.textContent='selctionner la categorie';
+		sous_cat.appendChild(p);
+		let select=document.createElement('select');
+		select.id='firstSousCat';
+		select.name='firstSousCat';
+		sous_cat.appendChild(select);
+		let option=document.createElement('option');
+		option.value=0;
+		option.textContent='________________';
+		select.appendChild(option);
+		for(let i in resulta){
+			console.log(resulta[i][0]);
+			let option=document.createElement('option');
+			option.value=resulta[i][0];
+			option.textContent=resulta[i][1];
+			select.appendChild(option);
+		}
+		let bouton=document.createElement('button');
+		bouton.id='second_sous_cat';
+		bouton.textContent="suivant";
+		bouton.style="display:block";
+		bouton.className="btn custom1 custom";
+		sous_cat.appendChild(bouton);
+		let second_siuvant=document.getElementById('second_sous_cat');
+		if(second_siuvant){
+		suite.style="display:None";
+		second_siuvant.addEventListener('click', function (event){
+
+			event.preventDefault();
+			const categorie=document.getElementById("firstSousCat");
+			if(categorie.selectedIndex>0){
+
+				const data=new FormData();
+				data.append('categorie', categorie.selectedIndex);
+				const requeteajax=new XMLHttpRequest();
+				requeteajax.open('GET', '/annonce/obtenirSecondSousCat/'+categorie.options[categorie.selectedIndex].value);
+				requeteajax.onload=function(){
+					const resulta=JSON.parse(requeteajax.responseText);
+					console.log(resulta);
+					p.textContent='selctionner la categorie';
+					sous_cat.appendChild(p);
+					let troisiemeSelect=document.createElement('select');
+					troisiemeSelect.name="secondSousCat";
+					troisiemeSelect.id="secondSousCat";
+					sous_cat.appendChild(troisiemeSelect);
+					let option=document.createElement('option');
+					option.value=0;
+					option.textContent='_________________';
+					let secondSousCategorie=document.getElementById('secondSousCat');
+					secondSousCategorie.appendChild(option);
+					for(let i in resulta){
+						let option=document.createElement('option');
+						option.value=resulta[i][0];
+						option.textContent=resulta[i][1];
+						secondSousCategorie.appendChild(option);
+					}
+
+					second_siuvant.style="display:None";
+					let troisieme_bouton=document.createElement('button');
+					troisieme_bouton.textContent="sauvegarder";
+					troisieme_bouton.type="submit";
+					troisieme_bouton.id="troisieme_bouton";
+					troisieme_bouton.style="display:none";
+
+					sous_cat.appendChild(troisieme_bouton);
+					let suitedinsertion=document.getElementsByClassName('suitedinsertion');
+					suitedinsertion[0].style="display:block";
+					suitedinsertion[1].style="display:block";
+
+				}
+				requeteajax.send(data);
+			}
+		});
+	}
+	}
+	requeteajax.send(data);
+	}
+	});
+
+</script>
+
+{% endblock %}
+
+
+
+_______________________________

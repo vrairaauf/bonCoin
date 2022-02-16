@@ -1,0 +1,96 @@
+{% extends 'template/template.html' %}
+{% block head %}
+<title>Minimalist | UpdateProduct</title>
+{% endblock %}
+{% block content %}
+<br><br><br><br><br><br>
+<div class="container">
+
+		<div class="row">
+			<!-- Article main content -->
+			<article class="col-xs-12 maincontent">
+				<br>
+				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<h3 class="thin text-center txt1">Mise à jour des produits</h3>
+							<form method="POST" action="">
+								{%csrf_token%}
+								<div class="top-margin">
+									Nom<br>
+									{{form.entete}}
+								</div>
+								<div class="top-margin">
+									Description<br>
+									{{form.contenu}}
+								</div>
+								<div class="top-margin">
+									<div class="categorie">
+										<p>Sélectionner une catégorie pour votre produit</p>
+										{{form.categorie}}
+									</div>
+									
+								</div>
+								<div class="top-margin">
+									<div class="categorie">
+										<p>Sélectionner une sous catégorie pour votre produit</p>
+										{{form.firstSousCat}}
+									</div>
+									
+								</div>
+								<div class="top-margin">
+									<div class="categorie">
+										<p>Sélectionner une sous catégorie pour votre produit</p>
+										{{form.secondSousCat}}
+									</div>
+									
+								</div>
+
+								
+									<div class="top-margin">
+										Prix<br>
+										{{form.prix}}
+									</div>
+									<div class="top-margin">
+										Quantitée<br>
+										{{form.quantite}}
+									</div>
+									<div class="top-margin">
+										Opération<br>
+										{{form.operation}}
+									</div>
+									
+									
+									
+																
+
+								<br>
+								<input type="hidden" name="user" required readonly value="{{request.user.id}}" >
+								<input type="hidden" name="location" value="{{form.location}}"  >
+								<input type="hidden" name="slug" value="{{form.slug}}" >
+		
+		
+			
+		
+								<div class="row">
+
+									<div  class="col-lg-4 suitedinsertion">
+										<input class="btn  custom1 custom" type="submit" value="Mise à jour">
+									</div>
+								</div>
+							</form>
+							<br>
+							{%if form.errors%}
+							<div class="alert alert-danger" role="alert">
+								{{form.errors}}
+							</div>
+							{%endif%}
+						</div>
+					</div>
+				</div>
+			</article>
+			<!-- /Article -->
+
+		</div>
+	</div>	<!-- /container -->
+{% endblock %}

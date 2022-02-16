@@ -1,0 +1,62 @@
+{% extends 'template/template.html' %}
+{% block content %}
+<br><br><br>
+	<div class="container">
+
+		<div class="row">
+			<!-- Article main content -->
+			<article class="col-xs-12 maincontent">
+				<br>
+				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<h3 class="thin text-center txt1">Devenir un vendeur</h3>
+							<form method="POST" action="">
+								{%csrf_token%}
+								<div class="top-margin">
+									<p>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel. Scelerisque viverra mauris in aliquam. Faucibus et molestie ac feugiat. Interdum posuere lorem ipsum dolor sit. Tortor dignissim convallis aenean et tortor at. Varius morbi enim nunc faucibus a. Potenti nullam ac tortor vitae purus faucibus ornare suspendisse sed. Diam phasellus vestibulum lorem sed risus ultricies. Nunc mi ipsum faucibus vitae aliquet nec. Aliquam malesuada bibendum arcu vitae. Accumsan tortor posuere ac ut consequat semper viverra nam. Vitae elementum curabitur vitae nunc sed velit dignissim sodales. Aliquet enim tortor at auctor urna nunc id cursus metus. Phasellus vestibulum lorem sed risus ultricies. Sit amet facilisis magna etiam tempor. Libero justo laoreet sit amet cursus sit amet dictum sit. Vitae ultricies leo integer malesuada nunc. Pulvinar etiam non quam lacus.
+										<br>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel. Scelerisque viverra mauris in aliquam. Faucibus et molestie ac feugiat. Interdum posuere lorem ipsum dolor sit. Tortor dignissim convallis aenean et tortor at. Varius morbi enim nunc faucibus a. Potenti nullam ac tortor vitae purus faucibus ornare suspendisse sed. Diam phasellus vestibulum lorem sed risus ultricies. Nunc mi ipsum faucibus vitae aliquet nec. Aliquam malesuada bibendum arcu vitae. Accumsan tortor posuere ac ut consequat semper viverra nam. Vitae elementum curabitur vitae nunc sed velit dignissim sodales. Aliquet enim tortor at auctor urna nunc id cursus metus. Phasellus vestibulum lorem sed risus ultricies. Sit amet facilisis magna etiam tempor. Libero justo laoreet sit amet cursus sit amet dictum sit. Vitae ultricies leo integer malesuada nunc. Pulvinar etiam non quam lacus.
+										<br>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel. Scelerisque viverra mauris in aliquam. Faucibus et molestie ac feugiat. Interdum posuere lorem ipsum dolor sit. Tortor dignissim convallis aenean et tortor at. Varius morbi enim nunc faucibus a. Potenti nullam ac tortor vitae purus faucibus ornare suspendisse sed. Diam phasellus vestibulum lorem sed risus ultricies. Nunc mi ipsum faucibus vitae aliquet nec. Aliquam malesuada bibendum arcu vitae. Accumsan tortor posuere ac ut consequat semper viverra nam. Vitae elementum curabitur vitae nunc sed velit dignissim sodales. Aliquet enim tortor at auctor urna nunc id cursus metus. Phasellus vestibulum lorem sed risus ultricies. Sit amet facilisis magna etiam tempor. Libero justo laoreet sit amet cursus sit amet dictum sit. Vitae ultricies leo integer malesuada nunc. Pulvinar etiam non quam lacus.
+									</p>
+									<div class="top-margin">
+									Compte Paypal Business
+									
+									<input type="text" name="paypalBus">
+								</div>
+								<div class="top-margin">
+
+									accepter les condition d'utilisation {{form.oui_condition}}
+								</div><br>
+								<div class="top-margin">
+									Prix de délivration:
+										<input type="number" name="prixDelivration" required="">
+								</div><br>
+								
+								<div class="row">
+
+									<div class="col-lg-4 ">
+										<input class="btn  custom1 custom" type="submit" value="S'INSCRIRE">
+									</div>
+								</div>
+							</form>
+							<br>
+							{%if form.errors%}
+							<div class="alert alert-danger" role="alert">
+								{{form.errors}}
+							</div>
+							{%endif%}
+						</div>
+					</div>
+				</div>
+			</article>
+			<!-- /Article -->
+
+		</div>
+	</div>	<!-- /container -->
+
+
+{% endblock %}
+

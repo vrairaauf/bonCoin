@@ -1,0 +1,205 @@
+{% extends 'template/template.html' %}
+{% block head %}
+<title>minimalist | image</title>
+{% endblock %}
+
+{% block content %}
+		<br><br><br><br>
+	<div class="container">
+
+		<div class="row">
+			<!-- Article main content -->
+			<article class="col-xs-12 maincontent">
+				<br>
+				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<h3 class="thin text-center txt1">Inscription</h3>
+							<form method="POST" action="" enctype="multipart/form-data">
+								{%csrf_token%}
+								<div class="top-margin">
+									<input type="file" name="images" id="fichier" multiple="true" style="display: none;">
+									<a href="#" id="fileselect" class="btn btn-info">Selectionner des images&nbsp&nbsp<i class="fa-solid fa-upload"></i></a>
+								</div>
+								
+								
+								<div class="top-margin">
+<div class="drag-area" id="drag-area" style="width: 100%;height: 220px; border-style: dashed;" >
+			
+			<p id="np">Drager vos images </p>
+	
+</div>
+								</div><br>
+								<div class="top-margin">
+									<div id="galerie">
+	
+</div>
+								</div>
+								
+								<div class="row">
+
+									<div class="col-lg-4 ">
+										<input class="btn  custom1 custom" type="submit" value="Ajouter" class="nb">
+									</div>
+								</div>
+							</form>
+							<br>
+							{%if form.errors%}
+							<div class="alert alert-danger" role="alert">
+								{{form.errors}}
+							</div>
+							{%endif%}
+						</div>
+					</div>
+				</div>
+			</article>
+			<!-- /Article -->
+
+		</div>
+	</div>	<!-- /container -->
+<script type="text/javascript">
+if(window.navigator.userAgent.indexOf('Edg')>-1){
+	var fileselect=document.getElementById('fileselect');
+	let fichier=document.getElementById('fichier');
+	let ext=['image/jpg', 'image/png', 'image/jpeg'];
+	let images=new Array();
+
+	fileselect.addEventListener('click', function (e){
+		if(fichier){
+			fichier.click();
+		}
+		e.preventDefault();
+	},false);
+	fichier.addEventListener('change', function(){
+		let nombre_foto=fichier.files.length;
+		for(let i=0;i<nombre_foto;i++){
+			if(ext.includes(fichier.files[i].type)){
+				images.push(fichier.files[i]);
+				console.log(images);
+				console.log(fichier.files[i]);
+			}
+			
+		}
+		if(images.length>0){
+			let containerGalerie=document.getElementById("galerie");
+			let existe=document.getElementsByClassName("imgGaleri");
+			if(existe){
+				debut=existe.length;
+			}else{
+				debu=0;
+			}
+			for(let i=debut; i<images.length;i++){
+				let img_tag=document.createElement('img');
+				img_tag.style="width: 50px;height:50px;margin:5px;";
+				img_tag.className='imgGaleri';
+				img_tag.src=URL.createObjectURL(images[i]);
+				img_tag.alt=images[i];
+				containerGalerie.appendChild(img_tag);
+			}
+		}
+		let imageAncien=document.getElementById('image');
+		console.log(imageAncien);
+		if(imageAncien){
+			drag.removeChild(imageAncien);
+		}
+		let raouf=URL.createObjectURL(fichier.files[nombre_foto-1]);
+			console.log(raouf);
+			let img_tag=document.createElement('img');
+			img_tag.src=raouf;
+			img_tag.alt="#";
+			img_tag.className="image";
+			img_tag.id="image";
+			img_tag.id='image';
+			img_tag.style="width: 100%; height: 100%";
+			if(document.getElementById('np')){
+				drag.removeChild(document.getElementById('np'));
+			}
+			
+			drag.appendChild(img_tag);
+
+
+	})
+	let drag=document.getElementById("drag-area");
+	let file;
+
+	
+
+	drag.addEventListener('dragover', (event)=>{
+		event.preventDefault();
+		console.log("fichier dragged");
+	});
+	drag.addEventListener('dragleave', ()=>{
+		console.log("fichier leaved");
+	});
+
+	drag.addEventListener('drop', (event)=>{
+		let imageAncien=document.getElementById('image');
+		console.log(imageAncien);
+		if(imageAncien){
+			drag.removeChild(imageAncien);
+		}
+		event.preventDefault();
+		
+		file=event.dataTransfer.files[0];
+		console.log(file);
+		images.push(file);
+		
+		console.log(images);
+		let fileType=file.type;
+		if(ext.includes(fileType)){
+			let raouf=URL.createObjectURL(file);
+			console.log(raouf);
+			let img_tag=document.createElement('img');
+			img_tag.src=raouf;
+			img_tag.alt="#";
+			img_tag.className="image";
+			img_tag.id="image";
+			img_tag.id='image';
+			img_tag.style="width: 100%; height: 100%";
+			if(document.getElementById('np')){
+				drag.removeChild(document.getElementById('np'));
+				//drag.removeChild(document.getElementById('nb'));
+			}
+			
+			drag.appendChild(img_tag);
+		}else{
+			alert('sélectionner une image');
+		}
+		
+		if(images.length>0){
+			let containerGalerie=document.getElementById("galerie");
+			let existe=document.getElementsByClassName("imgGaleri");
+			if(existe){
+				debut=existe.length;
+			}else{
+				debu=0;
+			}
+			for(let i=debut; i<images.length;i++){
+				let img_tag=document.createElement('img');
+				img_tag.style="width: 50px;height:50px;margin:5px;";
+				img_tag.className='imgGaleri';
+				img_tag.src=URL.createObjectURL(images[i]);
+				img_tag.alt=images[i];
+				containerGalerie.appendChild(img_tag);
+			}
+		}
+		
+	});
+let nb=document.getElementById('nb');
+nb.addEventListener('click', function(e){
+	e.preventDefault();
+	let fichier=document.getElementById('fichier');
+	let datatransfer = new DataTransfer();
+	for(let i=0;i<images.length;i++){
+		datatransfer.items.add(images[i]);
+	}
+	let raouffile=datatransfer.files;
+	console.log(raouffile);
+	fichier.files=raouffile;
+
+});
+}
+</script>
+
+{% endblock %}
+_____________________________________

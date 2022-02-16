@@ -1,0 +1,25 @@
+{% extends 'template/template.html' %}
+{% block head %}
+<title>minimalit | ajouter sous categorie</title>
+{% endblock %}
+{% block content %}
+<div class="alert alert-warning">
+	
+<h2 >ajouter une categorie </h2>
+</div>
+
+<div>
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{form.titre}}
+		{{form.categorie}}
+		{{form.avatar}}
+		<input type="submit" name="submit" value="publier">
+	</form>
+</div>
+ <div class="alert alert-info">
+ 	<p><a href="{% url 'addSScategorie' %}" class="btn btn-success"></a></p>
+	<p><a href="{% url 'admin_home' %}">la page principal</a></p>
+
+</div>
+{% endblock %}

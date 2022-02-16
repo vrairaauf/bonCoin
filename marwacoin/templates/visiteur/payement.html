@@ -1,0 +1,17 @@
+
+{% extends 'template/template.html' %}
+{% block content %}
+<br><br><br><br><br>
+
+<div class="container alert alert-success">
+	<h4><strong>{{produit.entete}}</strong></h4>
+	<p><img src="{{produit.affiche.url}}" style="width: 40px;height: 40px;"></p>
+	<p><i class="fa-solid fa-hand-holding-dollar"></i>{{produit.prix}}&nbsp&nbspEUR</p>
+	<p>{{commande.nbPiece}}</p>
+	<h4><i class="fa-solid fa-hand-holding-dollar"></i>{{ total }}&nbsp&nbspEUR</h4>
+
+</div>
+<br><br><br><br><br>
+<hr>
+{% include 'frame/bouton_paypal.html' %}
+{% endblock %}

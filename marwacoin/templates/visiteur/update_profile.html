@@ -1,0 +1,29 @@
+{% extends 'template/template.html' %}
+{% block content %}
+{% if messages %}
+
+<div class="alert alert-danger">
+	{% for item in messagse %}
+	<p class="text-center">item</p>
+	{% endfor %}
+</div>
+{% endif %}
+<div class="alert alert-warning">
+
+<h2 >update profile</h2>
+<p><img src="{{ profile.avatar.url }}" style="width: 120px; height: 120px;"></p>
+
+<p>phone number : {{ profile.phone }}</p>
+<p>addrese : 	  {{ profile.adresse }}</p>
+<p>age : 	  {{ profile.age }}</p>
+<hr>
+</div>
+
+<div>
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" name="submit" value="submit">
+	</form>
+</div>
+{% endblock %}

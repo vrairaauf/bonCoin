@@ -1,0 +1,17 @@
+{% extends 'template/template.html' %}
+{% block head %}
+<title>desactiver compte</title>
+{% endblock %}
+{% block content %}
+<div>
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel. Scelerisque viverra mauris in aliquam. Faucibus et molestie ac feugiat. Interdum posuere lorem ipsum dolor sit. Tortor dignissim convallis aenean et tortor at. Varius morbi enim nunc faucibus a. Potenti nullam ac tortor vitae purus faucibus ornare suspendisse sed. Diam phasellus vestibulum lorem sed risus ultricies. Nunc mi ipsum faucibus vitae aliquet nec. Aliquam malesuada bibendum arcu vitae. Accumsan tortor posuere ac ut consequat semper viverra nam. Vitae elementum curabitur vitae nunc sed velit dignissim sodales. Aliquet enim tortor at auctor urna nunc id cursus metus. Phasellus vestibulum lorem sed risus ultricies. Sit amet facilisis magna etiam tempor. Libero justo laoreet sit amet cursus sit amet dictum sit. Vitae ultricies leo integer malesuada nunc. Pulvinar etiam non quam lacus.
+										<br>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat pretium nibh ipsum consequat nisl vel. Scelerisque viverra mauris in aliquam. Faucibus et molestie ac feugiat. Interdum posuere lorem ipsum dolor sit. Tortor dignissim convallis aenean et tortor at. Varius morbi enim nunc faucibus a. Potenti nullam ac tortor vitae purus faucibus ornare suspendisse sed. Diam phasellus vestibulum lorem sed risus ultricies. Nunc mi ipsum faucibus vitae aliquet nec. Aliquam malesuada bibendum arcu vitae. Accumsan tortor posuere ac ut consequat semper viverra nam. Vitae elementum curabitur vitae nunc sed velit dignissim sodales. Aliquet enim tortor at auctor urna nunc id cursus metus. Phasellus vestibulum lorem sed risus ultricies. Sit amet facilisis magna etiam tempor. Libero justo laoreet sit amet cursus sit amet dictum sit. Vitae ultricies leo integer malesuada nunc. Pulvinar etiam non quam lacus.</p>
+	<form method="POST">
+		{% csrf_token %}
+		<p><a href="{% url 'home_page' %}">Annuler</a></p>
+		<p><input type="submit" name="submit"></p>
+	</form>
+	
+</div>
+{% endblock %}

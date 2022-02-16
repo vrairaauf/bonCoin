@@ -1,0 +1,61 @@
+{% extends 'template/template.html' %}
+{% block head %}
+<title>Minimalist | Messages</title>
+{% endblock %}
+{% block content %}
+<div class="alert alert-warning">
+	
+<h2 >Les messages envoyer par les vbisiteur de site</h2>
+</div>
+{% if contactMessage %}
+<div class="alert alert-info">
+	{% for item in contacteMessage %}
+	<div class=" container alert alert-info">
+		<h5><strong>{{item.nom}}</strong></h5>
+		<p><strong>{{item.email}}</strong></p>
+		<p><strong>{{item.cause}}</strong></p>
+		<p>{{item.message}}</p>
+		<p><strong>{{item.created_at}}</strong></p>
+		<hr>
+	</div>
+	{% endfor %}
+</div>
+ <div class="aa-blog-archive-pagination">
+                  <nav>
+                    <ul class="pagination">
+                    	{% if contacteMessage.has_previous %}
+                      <li>
+                        <a aria-label="Previous" href="?page={{ produits_list.previous_page_number }}">
+                          <span aria-hidden="true">«</span>
+                        </a>
+                      </li>
+                      {% endif %}
+                      {% for item in longPagination %}
+                      	{% if forloop.counter ==  contacteMessage.number%}
+                      	<li class="active"><a href="?page={{ forloop.counter }}">{{forloop.counter}}</a></li>
+                      	{% else %}
+                      		<li><a href="?page={{ forloop.counter }}">{{forloop.counter}}</a></li>
+                      	{% endif %}
+                      {% endfor %}
+                      
+                      {% if contacteMessage.has_next %}
+                      <li>
+                        <a aria-label="Next" href="?page={{ contacteMessage.next_page_number }}">
+                          <span aria-hidden="true">»</span>
+                        </a>
+                      </li>
+                      {% endif %}
+                    </ul>
+                  </nav>
+                </div>
+                <hr>
+   {% else %}
+   <div class="container alert alert-info">
+   		<h4>Pas de messages</h4>
+   </div>
+   {% endif %}
+ <div class="alert alert-info">
+	<p><a href="{% url 'admin_home' %}">la page principal</a></p>
+
+</div>
+{% endblock %}

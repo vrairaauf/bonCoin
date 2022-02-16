@@ -1,0 +1,113 @@
+{% extends 'template/template.html' %}
+{% load marwacoin_extras %}
+{% block head %}
+<title>minimalist | produit</title>
+{% endblock %}
+{% block content %}
+<div class="alert alert-warning">
+<h2 >detail des produits</h2>
+</div>
+{% if meta.fonctionne is False %}
+<div class="alert alert-danger">
+	<p class="text-center"><strong>les service de se site nest pas pour votre zone geographique</strong></p>
+</div>
+{% endif %}
+
+<div class="container">
+  <form method="GET">
+    {{search.form.as_p}}
+    <br>
+    <input type="submit" name="submit" value="search">
+  </form>
+</div>
+ <section id="aa-blog-archive">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="aa-blog-archive-area aa-blog-archive-2">
+            <div class="row">
+              <div class="col-md-9">
+                <div class="aa-blog-content">
+                  <div class="row">
+	                 {% for item in produits_list %}
+	                   <div class="col-md-4 col-sm-4">
+                      <article class="aa-latest-blog-single">
+                        <figure class="aa-blog-img">                    
+                          <a href="#"><img alt="img" src="{{ item.affiche.url }}"></a>  
+                            <figcaption class="aa-blog-img-caption">
+                              <span href="#" style="font-size: 13px;"><i class="fa fa-clock-o"></i>{{ item.created_at }}</span>
+                              <a href="#" style="font-size: 13px;"><i class="fa-solid fa-hand-holding-dollar"></i>{{ item.prix }}&nbspEUR</a>
+                          </figcaption>                          
+                        </figure>
+                        <div class="aa-blog-info">
+                          <h3 class="aa-blog-title"><a href="#">{{item.entete}}</a></h3>
+                          <p>{{ item.extrai }}</p> 
+                         	 {% if meta.fonctionne is True %}
+								            {% if item.operation == 'vente' %}
+                          <a class="aa-read-mor-btn" href="{% url 'versAcheterUnProduit' item.slug %}">Acheter <span class="fa fa-long-arrow-right"></span></a>
+                            {% else %}
+                          	<a class="aa-read-mor-btn" href="{% url 'prendreUnRendezVous' item.slug %}">Prend un rendez-vous <span class="fa fa-long-arrow-right"></span></a>
+                          {% endif %}
+                           {% endif %}
+                        </div>
+                      </article>
+                    </div>
+	
+	             {% endfor %}
+              </div>
+              </div>
+ 
+
+
+
+               <div class="aa-blog-archive-pagination">
+                  <nav>
+                    <ul class="pagination">
+                      {% if produits_list.has_previous %}
+                      <li>
+                        <a aria-label="Previous" href="{% my_url  produits_list.previous_page_number 'page' request.GET.urlencode %}">
+                          <span aria-hidden="true">«</span>
+                        </a>
+                      </li>
+                      {% endif %}
+                      {% for item in longPagination %}
+                        {% if forloop.counter ==  produits_list.number%}
+                        <li class="active"><a href="{% my_url  forloop.counter 'page' request.GET.urlencode %}">{{forloop.counter}}</a></li>
+                        {% else %}
+                          <li><a href="{% my_url  forloop.counter 'page' request.GET.urlencode %}">{{forloop.counter}}</a></li>
+                        {% endif %}
+                      {% endfor %}
+                      
+                      {% if produits_list.has_next %}
+                      <li>
+                        <a aria-label="Next" href="{% my_url produits_list.next_page_number 'page' request.GET.urlencode %}">
+                          <span aria-hidden="true">»</span>
+                        </a>
+                      </li>
+                      {% endif %}
+                    </ul>
+                  </nav>
+                </div>
+</div>
+   <div class="col-md-3">
+                <aside class="aa-blog-sidebar">
+                  <div class="aa-sidebar-widget">
+                    <h3>Categories</h3>
+                    <ul class="aa-catg-nav">
+                    	  {% for item in FirstSouscat %}
+                      <li><a href="{% url 'firstSouscategoriesDetail' categorie.slug item.slug  %}"> {{item.titre}} <br><small><img src="{{item.avatar.url}}" style="width: 60px;height: 60px;"></small>  </a></li>
+                      	{% endfor %}
+                    </ul>
+                    </div>
+                  <div class="aa-sidebar-widget">
+                  </div>
+                </aside>
+              </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+</section>
+
+{% endblock %}
