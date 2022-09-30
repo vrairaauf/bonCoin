@@ -5,6 +5,7 @@
 {% endblock %}
 {% block content %}
 <br><br><br><br><br>
+<!--
 <div class="container alert alert-danger">
   <style type="text/css">
     .modele{
@@ -19,9 +20,9 @@
       {{item}}
       {% endfor %}
     </textarea>
-    <input type="submit" name="submit" value="envoyer">
+    <input type="submit" name="submit" value="envoyermodele">
   </form>
-</div>
+</div>-->
 {% if messages %}
 <div class="alert alert-info">
 {% for item in messages %}
@@ -45,7 +46,7 @@
   <i class="fa-solid fa-bell" style="font-size: 70px"></i>
 		</div>
     <div style="width: 80%;">
-      <p><strong>&nbspvous avez une nouvelle notification</strong></p>
+      <p><strong>&nbsp vous avez une nouvelle notification</strong></p>
 		  <p>{{ item.extrai }}<span><a href="{% url 'lireNotification' item.id %}">lire</a></span></p>
   </div>
 

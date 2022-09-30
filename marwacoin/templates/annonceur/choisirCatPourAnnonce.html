@@ -1,0 +1,59 @@
+{% extends 'template/template.html' %}
+{% block head %}
+	<title>minimal-ist | annonce</title>
+{% endblock %}
+{% block content %}
+
+	
+<br><br><br><br><br>
+	<div class="container">
+
+		<div class="row">
+			<!-- Article main content -->
+			<article class="col-xs-12 maincontent">
+				<br>
+				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<h3 class="thin text-center txt1">Ajouter une annonce</h3>
+							<form method="POST" action="">
+								{%csrf_token%}
+								<div class="top-margin">
+										<select name="catPrincipal">
+											{% for item in categories %}
+												<option value="{{item.id}}">
+													{{item.titre}}
+												</option>
+											{% endfor %}
+										</select>
+								</div>
+
+								<div class="row">
+									<div  class="col-lg-4 suitedinsertion">
+										<input class="btn  custom1 custom" type="submit" value="Suivant">
+									</div>
+
+								</div>
+							</form>
+							<br>
+							{%if form.errors%}
+							<div class="alert alert-danger" role="alert">
+								{{form.errors}}
+							</div>
+							{%endif%}
+						</div>
+					</div>
+				</div>
+			</article>
+			<!-- /Article -->
+
+		</div>
+	</div>	<!-- /container -->
+
+
+
+{% endblock %}
+
+
+
+_______________________________

@@ -32,7 +32,7 @@ class AjoutVendeurForm(ModelForm):
 class ProduitForm(ModelForm):
 	class Meta:
 		model=Produit
-		fields=['entete', 'contenu', 'categorie','user', 'firstSousCat', 'secondSousCat', 'quantite', 'operation', 'prix', 'location', 'slug']
+		fields=['entete', 'categorie','user', 'etat', 'firstSousCat', 'secondSousCat', 'quantite', 'contenu','operation', 'prix', 'location', 'slug']
 class FormIp(ModelForm):
 	class Meta:
 		model=IpMembre

@@ -87,7 +87,7 @@
 				<ul class="nav navbar-nav navbar-right">
 					{% if meta.fonctionne is True %}
 						{% if estIlVendeur %}
-							<li> <button class="book-btn" ><a href="{% url 'publierAnnonce' %}"> Ajouter annonce&nbsp&nbsp<i class="fa-solid fa-bullhorn"></i>&nbsp</a></li>
+							<li> <button class="book-btn" ><a href="{% url 'choisirCatPourAnnonce' %}"> Ajouter annonce&nbsp&nbsp<i class="fa-solid fa-bullhorn"></i>&nbsp</a></li>
 						{% else %}
 							<li style="border-style: solid;border-width: 0.1px;border-radius: 7px;"> <a href="{% url 'passeMode' %}"> Devenir un vendeur&nbsp<i class="fa-solid fa-store-slash"></i></a></li>
 						{% endif %}

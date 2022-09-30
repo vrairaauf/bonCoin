@@ -87,7 +87,7 @@ class firstSousCategorie(models.Model):
     titre=models.CharField(max_length=255)
     slug=models.CharField(max_length=255, default='AZERTY')
     avatar=models.ImageField(blank=True, null=True, default='OIP.jpg')
-    categorie=models.ForeignKey(Categorie,null=True, on_delete=models.CASCADE)
+    categorie=models.ForeignKey(Categorie,null=True, related_name="categorie",on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now_add=True)
     deleted_at=models.BooleanField(default=False)
     updated_at=models.DateTimeField(auto_now_add=True ,null=True)
@@ -97,7 +97,7 @@ class secondSousCategorie(models.Model):
     titre=models.CharField(max_length=255)
     slug=models.CharField(max_length=255, default='AZERTY')
     avatar=models.ImageField(blank=True, null=True, default='OIP.jpg')
-    firstCategore=models.ForeignKey(firstSousCategorie, null=True,on_delete=models.CASCADE)
+    firstCategore=models.ForeignKey(firstSousCategorie, null=True, related_name="firstCategorie",on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now_add=True)
     deleted_at=models.BooleanField(default=False)
     updated_at=models.DateTimeField(auto_now_add=True ,null=True)
@@ -110,8 +110,14 @@ class Produit(models.Model):
     ('échange', 'échange'),
     ('donation', 'donation')
     }
+    ETAT={
+        ('occasion', 'occasion'),
+        ('bon état', 'bon état'),
+        ('presq neuf', 'presq neuf'),
+        ('neuf', 'neuf')
+    }
     entete=models.CharField(max_length=255)
-    contenu=models.TextField()
+    contenu=models.TextField(null=True)
     prix=models.FloatField(null=True)
     quantite=models.IntegerField(null=True)
     operation=models.CharField(max_length=255, choices=METHODE, default='vente')
@@ -122,6 +128,7 @@ class Produit(models.Model):
     secondSousCat=models.ForeignKey(secondSousCategorie, null=True, on_delete=models.CASCADE)
     affiche=models.ImageField(blank=True, null=True, default='OIP.jpg')
     vendu=models.BooleanField(default=False)
+    etat=models.CharField(max_length=255, choices=ETAT, null=True, default="normal")
     slug=models.CharField(max_length=255, null=True)
     created_at=models.DateTimeField(auto_now_add=True, null=True)
     deleted_at=models.BooleanField(default=False)

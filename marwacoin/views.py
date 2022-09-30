@@ -25,6 +25,7 @@ import uuid
 from django.views.decorators.csrf import csrf_exempt
 from geopy.geocoders import Nominatim
 from .filters import *
+
 # Create your views here.
 def estIlFonctionneDansCetpaye(ip):
 	test="126.53.24.5"#remplacer par ip aux environnement de production
@@ -268,7 +269,7 @@ def verification_de_compte(request):
 	context={'profile':profile, 'requete':requete}
 	return render(request, 'visiteur/verifier_compte.html', context)
 
-
+ 
 def user_logout(request):
 	logout(request)
 	return redirect('principal')
@@ -306,12 +307,8 @@ def landing_page(request):
 	nb_visite=int(nb_visite)+1
 	fichier.write(str(nb_visite))
 	fichier.close()
-	modele=open('static/files/models/vehicule.data', 'r', encoding='utf8')
-	retour=modele.readlines()
 	
-	modele.close()
 	context={
-		'retour':retour,
 		'estIlVendeur':getVendeur(request),
 		'search':ProduitFilter(),
 		'profile':profil,
@@ -443,13 +440,110 @@ def passeModeAnnonceur(request):
 	}
 	return render(request, 'visiteur/etrevendeur.html', context)
 
-	
+@allowed_users(allowedGroups=['vendeur', 'admin', 'visiteur'])
+@login_required(login_url='login')
+def choisirCatPourAnnonce(request):
+	categories=Categorie.objects.all()
+	context={
+		"categories":categories,
+	}
+	if request.method=="POST":
+		if request.POST.get("catPrincipal"):
+			return redirect("choisitFirstCatPourAnnonce", request.POST.get("catPrincipal"))
+		messages.error(request, 'Veiller choisir une categorie pour votre produit')
+	return render(request, "annonceur/choisirCatPourAnnonce.html", context)
+
+@allowed_users(allowedGroups=['vendeur', 'admin', 'visiteur'])
+@login_required(login_url='login')
+def choisitFirstCatPourAnnonce(request, pk):
+	try:
+		firstCat=firstSousCategorie.objects.filter(categorie=pk)
+	except firstSousCategorie.DoesNotExist:
+		messages.error(request, "cette categorie n'existe pas")
+		return redirect("choisirCatPourAnnonce")
+	context={
+		"categories":firstCat,
+	}
+	if request.method=='POST':
+		if request.POST.get('catSecondaire'):
+			return redirect("choisirSecondCatPourAnnonce", request.POST.get("catSecondaire"))
+		messages.error("veiller continuer la séléction des catégorie pour terminer votre annonce")
+	return render(request, 'annonceur/choisitFirstCatPourAnnonce.html', context)
+@allowed_users(allowedGroups=['vendeur', 'admin', 'visiteur'])
+@login_required(login_url='login')
+def choisirSecondCatPourAnnonce(request,pk):
+	try:
+		secondesCat=secondSousCategorie.objects.filter(firstCategore=pk)
+	except secondSousCategorie.DoesNotExist:
+		messages.error(request, "cette categorie n'existe pas")
+		return redirect("choisirCatPourAnnonce")
+	context={
+		"categories": secondesCat,
+	}
+	if request.method=='POST':
+		if request.POST.get("catFinale"):
+			return redirect("creerAutreInfoPourAnnonce", request.POST.get("catFinale"))
+		messages.error('veiller selectionner une categorie pour terminer la distrubition de votre annonces')
+
+	return render(request, 'annonceur/choisirSecondeCatPourAnnonce.html', context)
+def slug_generator():
+	return "identifientunique"
+@allowed_users(allowedGroups=['vendeur', 'admin', 'visiteur'])
+@login_required(login_url='login')
+def creerAutreInfoPourAnnonce(request, pk):
+	try:
+		sousCategories=secondSousCategorie.objects.get(id=pk)
+	except secondSousCategorie.DoesNotExist:
+		print("cette categorie n'existe pas")
+		return redirect('publierAnnonce')
+	form=ProduitForm()
+	modele=open('static/files/models/{}.data'.format(sousCategories.titre), 'r', encoding='utf8')
+	retour=modele.readlines()
+	modele.close()
+	context={
+		'retour':retour,
+		'form':form,
+		'estIlVendeur':getVendeur(request),
+	}
+	if request.method=='POST':
+		#'entete', 'categorie','user', 'etat', 'firstSousCat', 'secondSousCat', 'quantite', 'contenu','operation', 'prix', 'location', 'slug'
+		firstSousCat=secondSousCategorie.objects.get(id=pk).firstCategore
+		print(request.POST)
+		slug=slug_generator()
+		donnee={
+			"csrfmiddlewaretoken": request.POST.get("csrfmiddlewaretoken"),
+			"entete": request.POST.get("entete"),
+			"etat": request.POST.get("etat"),
+			"prix": request.POST.get("prix"),
+			"quantite": request.POST.get("quantite"),
+			"user": request.user.id,
+			"operation": request.POST.get("operation"),
+			"contenu": request.POST.get("contenu"),
+			"location": request.user.address,
+			"secondSousCat": pk,
+			"firstSousCat": firstSousCat.id,
+			"categorie": firstSousCategorie.objects.get(titre=firstSousCat).categorie.id,
+			"operation":request.POST.get("operation"),
+			"slug":slug,
+		}
+		formAnnonce=ProduitForm(donnee)
+		if formAnnonce.is_valid():
+			try:
+				formAnnonce.save()
+				#messages.success(request,"votre produit est publier avec succées")
+				return redirect("publierAnnonceImage")
+			except:
+				return redirect("publierAnnonceImage")
+		messages.error(request,"veiller inserer tous vos champs")
+	return render(request, 'annonceur/createContenuAnnonceAvecModele.html', context)
+
 @allowed_users(allowedGroups=['vendeur', 'admin', 'visiteur'])
 @login_required(login_url='login')
 def publierAnnonce(request):
 	profile=Profile.objects.get(user=request.user.id)
 	categorie=Categorie.objects.all()
 	ip=IpMembre.objects.filter(user=request.user.id)
+	
 	form=ProduitForm()
 	image=ImageProduitForm()
 	context={
@@ -460,17 +554,48 @@ def publierAnnonce(request):
 		'slug':getSlug(),
 		'profile':profile
 		}
-	if request.method=='POST':
-		print('cest ici')
+	if request.method=='POST': 
 		donne=request.POST
 		form=ProduitForm(donne)
 		if form.is_valid():
 			form.save()
 			messages.success(request, 'Votre produit est enregistée avec succées')
-			return redirect('publierAnnonceImage')
+			
+			return redirect("choisirUnModele", pk=request.POST.get("secondSousCat"), idprod=Produit.objects.filter(user=request.user.id).latest(field_name=None))
 		else:
 			messages.error(request, 'Veiller valider vos données ')
+			print("le formulaire incorrect")
 	return render(request, 'annonceur/publierAnnonce.html', context)
+
+@allowed_users(allowedGroups=['vendeur', 'admin', 'visiteur'])
+@login_required(login_url='login')
+def createContenuAnnonceAvecModele(request, pk, idprod):
+	print("le code est ici dans la nouvele fonction")
+	try:
+		sousCategories=secondSousCategorie.objects.get(id=pk)
+	except secondSousCategorie.DoesNotExist:
+		print("cette categorie n'existe pas")
+		return redirect('publierAnnonce')
+	try:
+		produit=Produit.objects.get(id=pk)
+	except Produit.DoesNotExist:
+		return redirect("publierAnnonce")
+	form=ProduitForm(instance=produit)
+	if request.method=='POST':
+		form=ProduitForm(request.POST, instance=produit)
+		if form.is_valid():
+			form.save()
+			produit.contenu=request.POST.get("modeleContenu")
+			return redirect("publierAnnonceImage")
+	modele=open('static/files/models/{}.data'.format(sousCategories.titre), 'r', encoding='utf8')
+	retour=modele.readlines()
+	modele.close()
+	context={
+		'retour':retour,
+		'form':form,
+		'estIlVendeur':getVendeur(request),
+	}
+	return render(request, 'annonceur/createContenuAnnonceAvecModele.html', context)
 def publierAnnonceImage(request):
 	profile=Profile.objects.get(user=request.user.id)
 	produit=Produit.objects.filter(user=request.user.id).latest('id')
@@ -786,6 +911,11 @@ def addSecondSousCat(request):
 		if form.is_valid():
 			form.save()
 			messages.success(request, 'Catégorie sauvegardée avec succée ')
+			print(request.POST.get('modele'))
+			modele=open("static/files/models/{}.data".format(request.POST.get('titre')), "w+", encoding='utf8')
+			modele.write(request.POST.get('modele'))
+			modele.close()
+			#'static/files/models/vehicule.data', 'r', encoding='utf8'
 			return redirect('addSScategorie')
 	context={
 		'form':form

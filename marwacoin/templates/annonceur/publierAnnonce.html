@@ -19,23 +19,23 @@
 				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
 					<div class="panel panel-default">
 						<div class="panel-body">
-							<h3 class="thin text-center txt1">Inscription</h3>
+							<h3 class="thin text-center txt1">Ajouter une annonce</h3>
 							<form method="POST" action="">
 								{%csrf_token%}
 								<div class="top-margin">
 									Nom<br>
 									{{form.entete}}
 								</div>
-								<div class="top-margin">
-									Description<br>
-									{{form.contenu}}
-								</div>
+								
 								<div class="top-margin">
 									<div class="categorie">
 										<p>Sélectionner une catégorie pour votre produit</p>
 										{{form.categorie}}
 									</div>
 									
+								</div>
+								<div style="visibility: hidden ;display: none;">
+									{{form.contenu}}
 								</div>
 								<div class="top-margin">
 									<div id="sous_cat">
@@ -50,6 +50,10 @@
 									<div class="top-margin">
 										Quantitée<br>
 										{{form.quantite}}
+									</div>
+									<div class="top-margin">
+										Etat : <br>
+										{{form.etat}}
 									</div>
 									<div class="top-margin">
 										Opération<br>

@@ -53,6 +53,11 @@ urlpatterns=[
     path('vendeur/nonlivre/detail/<str:pk>', views.nonDelivreDetail, name='nonDelivreDetail'),
     path('root/show/user/email/<str:pk>', views.adminEnvoieEmailPourUtilisateur, name='adminEnvoieEmailPourUtilisateur'),
     path('root/messages', views.voirContactMessages, name='voirMessages'),
+    path("annonce/modele/<int:pk>/<int:idprod>", views.createContenuAnnonceAvecModele, name="choisirUnModele"),
+    path("annonce/categorie", views.choisirCatPourAnnonce, name="choisirCatPourAnnonce"),
+    path("annonce/firstCat/<int:pk>", views.choisitFirstCatPourAnnonce, name="choisitFirstCatPourAnnonce"),
+    path("annonce/secondCat/<int:pk>", views.choisirSecondCatPourAnnonce, name="choisirSecondCatPourAnnonce"),
+    path("annonce/autre_information/<int:pk>", views.creerAutreInfoPourAnnonce, name="creerAutreInfoPourAnnonce"),
     #paypal urls
    
     #path('paypal/visiteur/payement/home', views.homePaypal, name="homePaypal"),

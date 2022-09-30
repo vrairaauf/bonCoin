@@ -7,14 +7,18 @@
 	
 <h2 >ajouter une categorie </h2>
 </div>
-
+ 
 <div>
 	<form method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
 		{{form.titre}}
 		{{form.firstCategore}}
 		{{form.avatar}}
-
+		<p>Ajouter un modele pour vos visiteur(ce modélé est trés pratique pour faciliter la recherche sur le site )</p>
+		<textarea id="modele" cols="80" rows="15" name="modele" required="">
+			
+		</textarea>
+		<br>
 		<input type="submit" name="submit" value="publier">
 	</form>
 </div>
